@@ -112,6 +112,29 @@ SUM_OF_DELAY_DEST <-LAX_DFW_DEST_Data %>%
 ```
 Similar to the figure 1 ,but in figure 2.The sum of ARR time is even negatively larger when lax served as destination,which means flights are operated more efficient.
 
+```{r}
+WEEKLY_Mode_of_Delay <-LAX_DFW_ORIGIN_Data %>%
+  dplyr::select("ORIGIN",
+                "DAY_OF_WEEK",
+                "DEP_DELAY",
+                "ARR_DELAY")%>%
+         pivot_longer(cols =  'DEP_DELAY':'ARR_DELAY',
+                      names_to = "DELAY",
+                      values_to = "TIME") %>%
+         group_by(ORIGIN,DELAY,DAY_OF_WEEK) %>%
+         summarise(SUM_OF_DELAY= sum(TIME))
+        
+ ggplot(WEEKLY_Mode_of_Delay,aes(x= DAY_OF_WEEK,
+                                y= SUM_OF_DELAY,
+                                fill= DELAY))+
+    geom_col()+ 
+    facet_grid(~ ORIGIN)+
+    scale_fill_brewer(palette = "Dark2")
+   
+    
+```
+
+
 ## Task 2
 
 Your comparison of domestic storage sites goes here
