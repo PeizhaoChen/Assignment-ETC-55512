@@ -65,8 +65,6 @@ SUM_OF_DELAY <- LAX_DFW_ORIGIN_Data %>%
 
          
     
-  
-
 ```
 
 ```{r}
