@@ -10,12 +10,63 @@ output:
       before_body: header.html
 ---
 
+```{r}
+install.packages("naniar")
+```
+
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, 
+knitr::opts_chunk$set(echo = FALSE,
                       cache=TRUE, 
                       messages=FALSE, 
                       warning=FALSE)
 library(tidyverse)
+library(ggmap)
+library(ggplot2)
+library(knitr)
+library(naniar)
+```
+
+
+```{r}
+
+setwd("C:/Users/Administrator/Desktop/Monash BA/ETC5512/Assignment/ETC-5512")
+Flight_data <- read.csv("data/1067097428_T_ONTIME_REPORTING.csv")
+
+```
+
+```{r}
+LAX_DFW_ORIGIN_Data <- Flight_data %>%
+  dplyr::select(c(`YEAR`:`ARR_DELAY`)) %>%
+         filter(ORIGIN %in% c("LAX","DFW"))
+
+SUM_OF_DELAY[is.na(SUM_OF_DELAY)]<-0
+```
+
+```{r}
+
+LAX_DFW_DEST_Data <- Flight_data %>%
+  dplyr::select(c(`YEAR`:`ARR_DELAY`)) %>%
+         filter(DEST %in% c("LAX","DFW"))
+
+SUM_OF_DELAY[is.na(SUM_OF_DELAY)]<-0                
+```
+
+```{r}
+
+
+SUM_OF_DELAY <- LAX_DFW_ORIGIN_Data %>%
+  dplyr::select("ORIGIN",
+                "DEP_DELAY",
+                "ARR_DELAY")%>%
+         pivot_longer(cols = -"ORIGIN",
+                      names_to = "DELAY",
+                      values_to = "TIME") 
+
+         
+    
+  
+
 ```
 
 ```{r}
