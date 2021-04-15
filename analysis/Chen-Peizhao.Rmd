@@ -1,0 +1,42 @@
+---
+title: "Recommendations for QANTAS: USA airport infrastucture, and a domestic aircraft storage facility"
+subtitle: ETC5512 Assignment 1, Master of Business Analytics
+author: Peizhao Chen, 31377203, pche0072@student.monash.edu 
+date: 'April 16, 2021'
+output: 
+  html_document:
+    css: monashreport.css
+    includes:
+      before_body: header.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, 
+                      cache=TRUE, 
+                      messages=FALSE, 
+                      warning=FALSE)
+library(tidyverse)
+```
+
+```{r}
+
+```
+
+
+
+## Task 2
+
+Your comparison of domestic storage sites goes here
+
+## Resources
+
+Cite your data sources, and software used here
+
+R Core Team (2021). R: A language and environment for
+statistical computing. R Foundation for Statistical
+Computing, Vienna, Austria. URL
+https://www.R-project.org/.
+
+## Supplementary information
+
+Any material that you think is important to include, but does not fit well in the main report can go here. The marker will likely not look at this section. So choose carefully, anything important needs to be in sections 1 (Task 1) and 2 (Task 2).
