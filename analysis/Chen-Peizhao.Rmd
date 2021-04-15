@@ -26,7 +26,8 @@ library(ggplot2)
 library(knitr)
 library(naniar)
 ```
-
+ 
+## Task 1
 
 ```{r}
 
@@ -86,7 +87,7 @@ ggplot(SUM_OF_DELAY_ORIGIN,aes(x=DELAY,
                         y=SUM_OF_DELAY))+
   geom_col()+
   facet_grid(~ORIGIN)+
-  ggtitle("Total delay time")
+  ggtitle("Figure 1:Total delay time")
  
 ```
 
@@ -108,12 +109,12 @@ SUM_OF_DELAY_DEST <-LAX_DFW_DEST_Data %>%
                         y=SUM_OF_DELAY))+
   geom_col()+
   facet_grid(~DEST)+
-  ggtitle("Total delay time") 
+  ggtitle("Figure 2:Total delay time") 
 ```
 Similar to the figure 1 ,but in figure 2.The sum of ARR time is even negatively larger when lax served as destination,which means flights are operated more efficient.
 
 ```{r}
-WEEKLY_Mode_of_Delay <-LAX_DFW_ORIGIN_Data %>%
+WEEKLY_Mode_of_Delay_Origin <-LAX_DFW_ORIGIN_Data %>%
   dplyr::select("ORIGIN",
                 "DAY_OF_WEEK",
                 "DEP_DELAY",
@@ -123,21 +124,55 @@ WEEKLY_Mode_of_Delay <-LAX_DFW_ORIGIN_Data %>%
                       values_to = "TIME") %>%
          group_by(ORIGIN,DELAY,DAY_OF_WEEK) %>%
          summarise(SUM_OF_DELAY= sum(TIME))
-        
- ggplot(WEEKLY_Mode_of_Delay,aes(x= DAY_OF_WEEK,
+
+
+ggplot(WEEKLY_Mode_of_Delay_Origin,aes(x= DAY_OF_WEEK,
                                 y= SUM_OF_DELAY,
                                 fill= DELAY))+
     geom_col()+ 
     facet_grid(~ ORIGIN)+
-    scale_fill_brewer(palette = "Dark2")
+    scale_fill_brewer(palette = "Dark2")+
+    ggtitle("Figure 3:WEEKLY_Mode_of_Delay_Origin")
    
     
 ```
 
+```{r}
+WEEKLY_Mode_of_Delay_DEST <-LAX_DFW_DEST_Data %>%
+  dplyr::select("DEST",
+                "DAY_OF_WEEK",
+                "DEP_DELAY",
+                "ARR_DELAY")%>%
+         pivot_longer(cols =  'DEP_DELAY':'ARR_DELAY',
+                      names_to = "DELAY",
+                      values_to = "TIME") %>%
+         group_by(DEST,DELAY,DAY_OF_WEEK) %>%
+         summarise(SUM_OF_DELAY= sum(TIME))
+
+
+ggplot(WEEKLY_Mode_of_Delay_DEST,aes(x= DAY_OF_WEEK,
+                                y= SUM_OF_DELAY,
+                                fill= DELAY))+
+    geom_col()+ 
+    facet_grid(~ DEST)+
+    scale_fill_brewer(palette = "Dark2")+
+    ggtitle("Figure 4:WEEKLY_Mode_of_Delay_Origin")
+```
+From the information provided by Figure 3 and Figure 4,flight delay tend to focus on Monday,Thursday and Friday,and on-time flights  mainly occured in Tuesday and Wednesday.Interestingly,LAX airport has significant different in terms of on-time flights in Monday and Sunday,especially when LAX used as origin,since it have more earlier arrival flight in most days of a week. 
+
+# Summary for the comparision of two airports
+
+Briefly,LAX airport has relatively high efficiency in terms of operation which can be demonstrate through amount of delay by given table and figure.Maybe DFW can try to resolve this situation through improve their operational performence in Monday,Thursday and Friday.
 
 ## Task 2
 
-Your comparison of domestic storage sites goes here
+```{r}
+
+setwd("C:/Users/Administrator/Desktop/Monash BA/ETC5512/Assignment/ETC-5512")
+Animal_Data <- read.csv("data/records-2021-04-15.csv")
+
+```
+
 
 ## Resources
 
