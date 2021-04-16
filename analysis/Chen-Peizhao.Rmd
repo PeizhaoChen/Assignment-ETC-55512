@@ -12,6 +12,7 @@ output:
 
 ```{r}
 install.packages("naniar")
+install.packages("do")
 ```
 
 
@@ -25,6 +26,7 @@ library(ggmap)
 library(ggplot2)
 library(knitr)
 library(naniar)
+
 ```
  
 ## Task 1
@@ -169,9 +171,67 @@ Briefly,LAX airport has relatively high efficiency in terms of operation which c
 ```{r}
 
 setwd("C:/Users/Administrator/Desktop/Monash BA/ETC5512/Assignment/ETC-5512")
-Animal_Data <- read.csv("data/records-2021-04-15.csv")
+Animal_Data <- read.csv("data/records-2021-04-15-2.csv")
 
 ```
+
+```{r}
+Location_data <- Animal_Data %>% 
+dplyr::filter(locality %in% c("Tullamarine",
+                              "Bendigo"))%>%
+       select("eventDate",
+              "locality",
+              "decimalLatitude",
+              "decimalLongitude",
+              "geodeticDatum",
+              "species",
+              "individualCount",
+              "eventTime")
+       
+```
+
+```{r}
+
+Number_OF_Occurances <-Location_data %>%
+dplyr::filter(locality %in% c("Tullamarine",
+                              "Bendigo"))%>%
+       select("eventDate",
+              "locality",
+              "decimalLatitude",
+              "decimalLongitude",
+              "geodeticDatum",
+              "species")%>%
+       group_by(locality) %>%
+       count(species,name = "occurance")
+
+knitr::kable(Number_OF_Occurances,
+  caption = 'Number of Occurances')
+
+```
+
+```{r}
+Number_OF_Occurances <-Location_data %>%
+dplyr::filter(locality %in% c("Tullamarine",
+                              "Bendigo"))%>%
+       select("eventDate",
+              "locality",
+              "decimalLatitude",
+              "decimalLongitude",
+              "geodeticDatum",
+              "species")%>%
+       group_by(locality) %>%
+       count(species,name = "occurance")
+
+ggplot(Number_OF_Occurances, aes(x= locality,
+                                 y= occurance))+
+  geom_col()+
+  facet_grid(~ species)+
+  ggtitle("Number OF Occurances")
+```
+
+From the given table and figure, these two locations,Tullamarine and Bendigo are habitats for
+Anthochaera phrygia and Perameles gunnii respectively.They live in different places and the size of the herds are remain in a really smalll,around 1 to 2.Apparently,the number of species activiites has be recorded in Bendigo is twice higher than which in Tullamarine.
+
 
 
 ## Resources
