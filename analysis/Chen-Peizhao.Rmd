@@ -13,6 +13,7 @@ output:
 ```{r}
 install.packages("naniar")
 install.packages("do")
+install.packages("scatterplot3d")
 ```
 
 
@@ -26,7 +27,7 @@ library(ggmap)
 library(ggplot2)
 library(knitr)
 library(naniar)
-
+library(scatterplot3d)
 ```
  
 ## Task 1
@@ -210,7 +211,7 @@ knitr::kable(Number_OF_Occurances,
 ```
 
 ```{r}
-Number_OF_Occurances <-Location_data %>%
+Number_OF_Occurances_Illustration <-Location_data %>%
 dplyr::filter(locality %in% c("Tullamarine",
                               "Bendigo"))%>%
        select("eventDate",
@@ -232,11 +233,39 @@ ggplot(Number_OF_Occurances, aes(x= locality,
 From the given table and figure, these two locations,Tullamarine and Bendigo are habitats for
 Anthochaera phrygia and Perameles gunnii respectively.They live in different places and the size of the herds are remain in a really smalll,around 1 to 2.Apparently,the number of species activiites has be recorded in Bendigo is twice higher than which in Tullamarine.
 
+```{r}
+
+Time_of_Occurance_Illustration <- Location_data %>%
+  dplyr::select("eventDate",
+                "species",
+                "decimalLatitude",
+                "decimalLongitude") %>%
+          mutate(Accurate_Location = str_c(decimalLatitude,decimalLongitude,sep = ",")) 
+
+ggplot(Time_of_Occurance_Illustration,aes(x =eventDate,
+                                          y =Accurate_Location))+
+  geom_line(position=position_dodge(0.2))+
+  geom_point(size=4, shape=20)+
+  facet_grid(~ species)+
+  theme_dark()+
+  ggtitle("Time of Occurance Illustration")
+
+```
+
+In the figure above,the activities of Anthochaera phrygia was mainly happend before 2000 ,this indicate that they might migrate to other habitats rather than original location (-36.77,144.28) and (-36.75,144.27).by comparision,the activities of Perameles gunnii  was happend after 2000 and focus in location(-37.6311,144.8486).Given that the herd of Perameles gunnii do not likely to move,so they might still live in this area.
+
+```{r}
+map=get_map(location='Vectoria',maptype='roadmap',zoom=12)
+register_google()
+```
+
+————————————————
+
 
 
 ## Resources
 
-Cite your data sources, and software used here
+ Winnard, A. L. & Coulson, G. (2008). "Sixteen years of Eastern Barred Bandicoot Perameles gunnii reintroductions in Victoria: a review". Pacific Conservation Biology. 14: 34. doi:10.1071/PC080034.
 
 R Core Team (2021). R: A language and environment for
 statistical computing. R Foundation for Statistical
